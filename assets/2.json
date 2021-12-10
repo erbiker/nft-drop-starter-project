@@ -1,0 +1,20 @@
+{
+    "name": "bronze",
+    "symbol": "",
+    "image": "2.png",
+    "properties": {
+      "files": [
+        {
+          "uri": "2.png",
+          "type": "image/png"
+        }
+      ],
+      "creators": [
+        {
+          "address": "9cC7Xwi5pwgiv65mjBUEEpED1fWACFksWhVjq5btcgEa",
+          "share": 100
+        }
+      ]
+    }
+  }
+  
