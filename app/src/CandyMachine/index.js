@@ -9,6 +9,9 @@ import {
   TOKEN_METADATA_PROGRAM_ID,
   SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
 } from './helpers';
+import CountdownTimer from '../CountdownTimer';
+
+
 const {
   metadata: { Metadata, MetadataProgram },
 } = programs;
@@ -368,19 +371,45 @@ const CandyMachine = ({ walletAddress }) => {
     </div>
   );
 
+  // Create render function
+  const renderDropTimer = () => {
+  // Get the current date and dropDate in a JavaScript Date object
+  const currentDate = new Date();
+  const dropDate = new Date(machineStats.goLiveData * 1000);
+
+  // If currentDate is before dropDate, render our Countdown component
+  if (currentDate < dropDate) {
+    console.log('Before drop date!');
+    // Don't forget to pass over your dropDate!
+    return <CountdownTimer dropDate={dropDate} />;
+  }
+
+  // Else let's just return the current drop date
+  return <p>{`Drop Date: ${machineStats.goLiveDateTimeString}`}</p>;
+  };
+
+
   return (
     machineStats && (
       <div className="machine-container">
+        {/* Add this at the beginning of our component */}
+        {renderDropTimer()}
         <p>{`Drop Date: ${machineStats.goLiveDateTimeString}`}</p>
         <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
-        <button 
-          className="cta-button mint-button" 
-          onClick={mintToken}
-          // Add this disabled state and have it listen to isMinting
-          disabled={isMinting}
-        >
-          Mint NFT
-        </button>
+        
+          {/* Check to see if these properties are equal! */}
+          {machineStats.itemsRedeemed === machineStats.itemsAvailable ? (
+            <p className="sub-text">Sold Out 🙊</p>
+          ) : (
+            <button 
+              className="cta-button mint-button" 
+              onClick={mintToken}
+              // Add this disabled state and have it listen to isMinting
+              disabled={isMinting}
+            >
+              Mint NFT
+            </button>
+          )}
         {isLoadingMints && <p>LOADING MINTS...</p>}
         {/* If we have mints available in our array, let's render some items */}
         {mints.length > 0 && renderMintedItems()}
